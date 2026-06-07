@@ -3,10 +3,9 @@ pipeline {
 
     environment {
         JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
-        PATH = "${JAVA_HOME}/bin:${env.PATH}"
-
         SONAR_SCANNER = tool 'SonarScanner'
-        PATH = "${SONAR_SCANNER}/bin:${env.PATH}"
+
+        PATH = "${JAVA_HOME}/bin:${SONAR_SCANNER}/bin:${env.PATH}"
     }
 
     stages {
