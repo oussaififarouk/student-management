@@ -1,12 +1,13 @@
 pipeline {
     agent any
 
-    tools {
-        sonarRunner 'SonarScanner'
+    environment {
+        SONAR_SCANNER = tool 'SonarScanner'
+        PATH = "${SONAR_SCANNER}/bin:${env.PATH}"
     }
 
     stages {
-        stage('SonarQube Analysis') {
+        stage('SonarQube') {
             steps {
                 sh 'sonar-scanner -v'
             }
