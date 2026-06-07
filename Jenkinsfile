@@ -6,11 +6,10 @@ pipeline {
         PATH = "${SONAR_SCANNER}/bin:${env.PATH}"
     }
 
-    stages {
-        stage('SonarQube') {
-            steps {
-                sh 'sonar-scanner -v'
-            }
-        }
+ stage('SonarQube') {
+    steps {
+        sh 'sonar-scanner ...'
+    }
+}
     }
 }
