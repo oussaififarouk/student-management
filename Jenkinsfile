@@ -14,6 +14,12 @@ pipeline {
             }
         }
 
+        stage('Fix Permissions') {
+            steps {
+                sh 'chmod +x mvnw'
+            }
+        }
+
         stage('Build Maven') {
             steps {
                 sh './mvnw clean package -DskipTests'
@@ -22,13 +28,15 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                sh """
-                sonar-scanner \
-                -Dsonar.projectKey=student-management \
-                -Dsonar.sources=src \
-                -Dsonar.host.url=http://10.0.2.15:9000 \
-                -Dsonar.login=YOUR_TOKEN
-                """
+                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+                    sh """
+                    sonar-scanner \
+                    -Dsonar.projectKey=student-management \
+                    -Dsonar.sources=src \
+                    -Dsonar.host.url=http://10.0.2.15:9000 \
+                    -Dsonar.login=$SONAR_TOKEN
+                    """
+                }
             }
         }
 
