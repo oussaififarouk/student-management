@@ -19,7 +19,7 @@ pipeline {
                   -Dsonar.projectName=student-management \
                   -Dsonar.sources=src \
                   -Dsonar.host.url=http://10.0.2.15:9000 \
-                  -Dsonar.token=VOTRE_TOKEN
+                  -Dsonar.token=sqp_e40392a2fe8cce8880f2e5ea46337ead4c5c994f
                 '''
             }
         }
