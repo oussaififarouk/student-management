@@ -2,9 +2,8 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
+        JAVA_HOME = "/usr/lib/jvm/java-21-openjdk-amd64"
         SONAR_SCANNER = tool 'SonarScanner'
-
         PATH = "${JAVA_HOME}/bin:${SONAR_SCANNER}/bin:${env.PATH}"
     }
 
@@ -19,6 +18,9 @@ pipeline {
         stage('Build Maven') {
             steps {
                 sh '''
+                export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+                export PATH=$JAVA_HOME/bin:$PATH
+
                 chmod +x mvnw
                 java -version
                 ./mvnw clean package -DskipTests
@@ -56,6 +58,16 @@ pipeline {
                 docker run -d -p 8081:8080 --name student-app student-management
                 '''
             }
+        }
+    }
+
+    post {
+        success {
+            echo '✅ Pipeline terminé avec succès'
+        }
+
+        failure {
+            echo '❌ Pipeline échoué - vérifier les logs'
         }
     }
 }
