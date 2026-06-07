@@ -14,15 +14,12 @@ pipeline {
             }
         }
 
-        stage('Fix Permissions') {
-            steps {
-                sh 'chmod +x mvnw'
-            }
-        }
-
         stage('Build Maven') {
             steps {
-                sh './mvnw clean package -DskipTests'
+                sh '''
+                chmod +x mvnw
+                ./mvnw clean package -DskipTests
+                '''
             }
         }
 
@@ -42,7 +39,10 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t student-management .'
+                sh '''
+                ls -l target
+                docker build -t student-management .
+                '''
             }
         }
 
