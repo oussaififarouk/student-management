@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "students")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

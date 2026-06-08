@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
 public class EnrollmentController {
-    IEnrollment enrollmentService;
+    private IEnrollment enrollmentService;
     @GetMapping("/getAllEnrollment")
     public List<Enrollment> getAllEnrollment() { return enrollmentService.getAllEnrollments(); }
 

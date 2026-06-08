@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"student", "course"})
 public class Enrollment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
