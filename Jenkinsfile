@@ -27,7 +27,24 @@ pipeline {
             }
         }
 
-        stage('Build, Test & SonarQube') {
+        stage('Build & Test') {
+            steps {
+                sh '''
+                export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+                export PATH=$JAVA_HOME/bin:$PATH
+
+                chmod +x mvnw
+
+                echo "=== Java Version ==="
+                java -version
+
+                echo "=== Maven Verify ==="
+                ./mvnw clean verify
+                '''
+            }
+        }
+
+        stage('SonarQube Analysis') {
             steps {
                 withCredentials([
                     string(
@@ -39,13 +56,8 @@ pipeline {
                     export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
                     export PATH=$JAVA_HOME/bin:$PATH
 
-                    chmod +x mvnw
-
-                    echo "=== Java Version ==="
-                    java -version
-
-                    echo "=== Maven Verify + SonarQube ==="
-                    ./mvnw clean verify sonar:sonar \
+                    echo "=== SonarQube Analysis ==="
+                    ./mvnw sonar:sonar \
                       -Dsonar.projectKey=student-management \
                       -Dsonar.host.url=$SONAR_HOST_URL \
                       -Dsonar.token=$SONAR_TOKEN \

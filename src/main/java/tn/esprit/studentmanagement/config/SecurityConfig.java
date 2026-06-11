@@ -17,12 +17,9 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    CookieCsrfTokenRepository csrfTokenRepository = new CookieCsrfTokenRepository();
-    csrfTokenRepository.setCookieHttpOnly(true);
-
     http
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-        .csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository))
+        .csrf(csrf -> csrf.csrfTokenRepository(new CookieCsrfTokenRepository()))
         .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults());
 
