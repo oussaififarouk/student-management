@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Enrollment")
-@CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
 public class EnrollmentController {
     private IEnrollment enrollmentService;
