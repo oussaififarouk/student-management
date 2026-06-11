@@ -32,10 +32,10 @@
         <maven.compiler.target>17</maven.compiler.target>
         <maven.compiler.release>17</maven.compiler.release>
         <sonar.exclusions>
-            Jenkinsfile,docker-compose.yml,application-local.properties,application-local.properties.example,.env,.env.example,**/src/test/resources/**
+            Jenkinsfile,docker-compose.yml,application-local.properties,.env,**/src/test/resources/**
         </sonar.exclusions>
         <sonar.text.inclusions.exclusions>
-            Jenkinsfile,docker-compose.yml,application-local.properties,application-local.properties.example,.env,.env.example,**/src/test/resources/**
+            Jenkinsfile,docker-compose.yml,application-local.properties,.env,**/src/test/resources/**
         </sonar.text.inclusions.exclusions>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>

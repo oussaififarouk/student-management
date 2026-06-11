@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.studentmanagement.dto.DepartmentRequest;
+import tn.esprit.studentmanagement.dto.RequestMapper;
 import tn.esprit.studentmanagement.entities.Department;
 import tn.esprit.studentmanagement.services.IDepartmentService;
 
@@ -14,23 +16,32 @@ import java.util.List;
 @AllArgsConstructor
 @PreAuthorize("isAuthenticated()")
 public class DepartmentController {
+
     private IDepartmentService departmentService;
+    private RequestMapper requestMapper;
 
     @GetMapping("/getAllDepartment")
-    public List<Department> getAllDepartment() { return departmentService.getAllDepartments(); }
+    public List<Department> getAllDepartment() {
+        return departmentService.getAllDepartments();
+    }
 
     @GetMapping("/getDepartment/{id}")
-    public Department getDepartment(@PathVariable Long id) { return departmentService.getDepartmentById(id); }
+    public Department getDepartment(@PathVariable Long id) {
+        return departmentService.getDepartmentById(id);
+    }
 
     @PostMapping("/createDepartment")
-    public Department createDepartment(@Valid @RequestBody Department department) { return departmentService.saveDepartment(department); }
+    public Department createDepartment(@Valid @RequestBody DepartmentRequest request) {
+        return departmentService.saveDepartment(requestMapper.toDepartment(request));
+    }
 
     @PutMapping("/updateDepartment")
-    public Department updateDepartment(@Valid @RequestBody Department department) {
-        return departmentService.saveDepartment(department);
+    public Department updateDepartment(@Valid @RequestBody DepartmentRequest request) {
+        return departmentService.saveDepartment(requestMapper.toDepartment(request));
     }
 
     @DeleteMapping("/deleteDepartment/{id}")
     public void deleteDepartment(@PathVariable Long id) {
-      departmentService.deleteDepartment(id); }
+        departmentService.deleteDepartment(id);
+    }
 }

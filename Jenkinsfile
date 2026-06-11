@@ -50,8 +50,8 @@ pipeline {
                       -Dsonar.host.url=$SONAR_HOST_URL \
                       -Dsonar.token=$SONAR_TOKEN \
                       -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
-                      -Dsonar.exclusions=Jenkinsfile,docker-compose.yml,application-local.properties,application-local.properties.example,.env,.env.example,**/src/test/resources/** \
-                      -Dsonar.text.inclusions.exclusions=Jenkinsfile,docker-compose.yml,application-local.properties,application-local.properties.example,.env,.env.example,**/src/test/resources/**
+                      -Dsonar.exclusions=Jenkinsfile,docker-compose.yml,application-local.properties,.env,**/src/test/resources/** \
+                      -Dsonar.text.inclusions.exclusions=Jenkinsfile,docker-compose.yml,application-local.properties,.env,**/src/test/resources/**
                     '''
                 }
             }
@@ -76,11 +76,7 @@ pipeline {
                 docker run -d \
                   --name student-app \
                   -p 8081:8089 \
-                  -e SPRING_DATASOURCE_URL \
-                  -e SPRING_DATASOURCE_USERNAME \
-                  -e SPRING_DATASOURCE_PASSWORD \
-                  -e SPRING_SECURITY_USER_NAME \
-                  -e SPRING_SECURITY_USER_PASSWORD \
+                  --env-file "$APP_CONFIG_FILE" \
                   student-management:latest
                 '''
             }

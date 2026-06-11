@@ -3,9 +3,12 @@ package tn.esprit.studentmanagement.controllers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import tn.esprit.studentmanagement.config.SecurityConfig;
+import tn.esprit.studentmanagement.dto.RequestMapper;
 import tn.esprit.studentmanagement.entities.Student;
 import tn.esprit.studentmanagement.services.IStudentService;
 
@@ -16,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(StudentController.class)
+@Import(SecurityConfig.class)
 class StudentControllerTest {
 
     @Autowired
@@ -23,6 +27,9 @@ class StudentControllerTest {
 
     @MockitoBean
     private IStudentService studentService;
+
+    @MockitoBean
+    private RequestMapper requestMapper;
 
     @Test
     @WithMockUser

@@ -1,7 +1,0 @@
-# Copy to application-local.properties (gitignored) and set your local values.
-# Required properties:
-#   spring.datasource.url
-#   spring.datasource.username
-#   spring.datasource.password
-#   spring.security.user.name
-#   spring.security.user.password
