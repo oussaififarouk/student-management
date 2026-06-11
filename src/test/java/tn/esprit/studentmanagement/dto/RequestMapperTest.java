@@ -39,6 +39,22 @@ class RequestMapperTest {
     private RequestMapper requestMapper;
 
     @Test
+    void toDepartmentMapsAllFields() {
+        DepartmentRequest request = new DepartmentRequest();
+        request.setIdDepartment(1L);
+        request.setName("IT");
+        request.setLocation("Building A");
+        request.setPhone("123");
+        request.setHead("Alice");
+
+        Department department = requestMapper.toDepartment(request);
+
+        assertEquals("IT", department.getName());
+        assertEquals("Alice", department.getHead());
+        assertEquals(1L, department.getIdDepartment());
+    }
+
+    @Test
     void toStudentMapsFieldsAndDepartment() {
         StudentRequest request = new StudentRequest();
         request.setFirstName("John");
@@ -73,21 +89,6 @@ class RequestMapperTest {
         when(departmentRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> requestMapper.toStudent(request));
-    }
-
-    @Test
-    void toDepartmentMapsAllFields() {
-        DepartmentRequest request = new DepartmentRequest();
-        request.setIdDepartment(1L);
-        request.setName("IT");
-        request.setLocation("Building A");
-        request.setPhone("123");
-        request.setHead("Alice");
-
-        Department department = requestMapper.toDepartment(request);
-
-        assertEquals("IT", department.getName());
-        assertEquals("Alice", department.getHead());
     }
 
     @Test

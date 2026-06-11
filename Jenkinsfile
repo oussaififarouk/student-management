@@ -51,6 +51,7 @@ pipeline {
                       -Dsonar.token=$SONAR_TOKEN \
                       -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
                       -Dsonar.qualitygate.wait=true \
+                      -Dsonar.qualitygate.timeout=600 \
                       -Dsonar.exclusions=Jenkinsfile,docker-compose.yml,application-local.properties,.env,**/src/test/resources/** \
                       -Dsonar.text.inclusions.exclusions=Jenkinsfile,docker-compose.yml,application-local.properties,.env,**/src/test/resources/**
                     '''

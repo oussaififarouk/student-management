@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -18,19 +17,12 @@ public class SecurityConfig {
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
-    requestHandler.setCsrfRequestAttributeName(null);
-
     CookieCsrfTokenRepository csrfTokenRepository = new CookieCsrfTokenRepository();
     csrfTokenRepository.setCookieHttpOnly(true);
-    csrfTokenRepository.setCookieName("XSRF-TOKEN");
-    csrfTokenRepository.setHeaderName("X-XSRF-TOKEN");
 
     http
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-        .csrf(csrf -> csrf
-            .csrfTokenRepository(csrfTokenRepository)
-            .csrfTokenRequestHandler(requestHandler))
+        .csrf(csrf -> csrf.csrfTokenRepository(csrfTokenRepository))
         .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults());
 

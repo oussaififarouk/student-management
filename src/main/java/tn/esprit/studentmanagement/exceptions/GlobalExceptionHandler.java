@@ -1,5 +1,6 @@
 package tn.esprit.studentmanagement.exceptions;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -7,7 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -15,6 +18,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleResourceNotFound(ResourceNotFoundException ex) {
+        log.warn("Resource not found: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of(ERROR_KEY, "Resource not found"));
     }
@@ -23,8 +27,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException ex) {
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getField() + ": invalid value")
-                .reduce((first, second) -> first + ", " + second)
-                .orElse("Validation failed");
+                .collect(Collectors.joining(", "));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(ERROR_KEY, message));
     }
 }
