@@ -27,9 +27,6 @@ pipeline {
             }
         }
 
-<<<<<<< HEAD
-        stage('Build Maven') {
-=======
         stage('Build, Test & SonarQube') {
             steps {
                 withCredentials([
@@ -61,55 +58,20 @@ pipeline {
         }
 
         stage('Docker Build') {
->>>>>>> feabc7f (Correction des tests, sécurité et configuration Jenkins)
             steps {
                 sh '''
                 echo "=== Vérification du JAR ==="
                 ls -lh target/
 
-<<<<<<< HEAD
-                chmod +x mvnw
-                java -version
-                ./mvnw clean package -DskipTests
-=======
                 docker build -t student-management:latest .
->>>>>>> feabc7f (Correction des tests, sécurité et configuration Jenkins)
                 '''
             }
         }
 
-<<<<<<< HEAD
-        stage('SonarQube Analysis') {
-            steps {
-                withCredentials([
-                    string(credentialsId: 'sonar-token-student-management',
-                           variable: 'SONAR_TOKEN')
-                ]) {
-                    sh '''
-                    ./mvnw sonar:sonar \
-                    -Dsonar.projectKey=student-management \
-                    -Dsonar.host.url=$SONAR_HOST_URL \
-                    -Dsonar.token=$SONAR_TOKEN
-                    '''
-                }
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                sh 'docker build -t student-management:latest .'
-            }
-        }
-
-=======
->>>>>>> feabc7f (Correction des tests, sécurité et configuration Jenkins)
         stage('Docker Run') {
             steps {
                 sh '''
                 docker rm -f student-app || true
-<<<<<<< HEAD
-                docker run -d --name student-app -p 8081:8089 student-management:latest
-=======
 
                 docker run -d \
                   --name student-app \
@@ -129,7 +91,6 @@ pipeline {
                 sh '''
                 echo "=== Conteneurs Docker ==="
                 docker ps
->>>>>>> feabc7f (Correction des tests, sécurité et configuration Jenkins)
                 '''
             }
         }
@@ -141,15 +102,11 @@ pipeline {
         }
 
         failure {
-<<<<<<< HEAD
-            echo 'Pipeline échoué'
-=======
             echo 'Pipeline échoué - vérifier les logs'
         }
 
         always {
             sh 'docker ps -a || true'
->>>>>>> feabc7f (Correction des tests, sécurité et configuration Jenkins)
         }
     }
 }
