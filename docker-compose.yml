@@ -4,8 +4,9 @@ services:
     container_name: student-management-mysql
     ports:
       - "3306:3306"
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-changeme}
       MYSQL_DATABASE: studentdb
     volumes:
       - mysql_data:/var/lib/mysql

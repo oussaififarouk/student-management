@@ -8,14 +8,22 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${app.cors.allowed-origins:http://localhost:4200}")
-    private String allowedOrigins;
+  private static final String[] ALLOWED_METHODS = {"GET", "POST", "PUT", "DELETE", "OPTIONS"};
+  private static final String[] ALLOWED_HEADERS = {"Content-Type", "Authorization", "X-Requested-With"};
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins(allowedOrigins.split(","))
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*");
+  @Value("${app.cors.allowed-origins:}")
+  private String allowedOrigins;
+
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+    if (allowedOrigins == null || allowedOrigins.isBlank()) {
+      return;
     }
+
+    registry.addMapping("/**")
+        .allowedOrigins(allowedOrigins.split(","))
+        .allowedMethods(ALLOWED_METHODS)
+        .allowedHeaders(ALLOWED_HEADERS)
+        .maxAge(3600);
+  }
 }

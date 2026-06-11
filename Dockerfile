@@ -1,9 +1,14 @@
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:17-jre
+
+RUN groupadd --system appgroup && useradd --system --gid appgroup appuser
 
 WORKDIR /app
 
 COPY target/*.jar app.jar
+RUN chown appuser:appgroup app.jar
 
-EXPOSE 8080
+USER appuser
 
-ENTRYPOINT ["java","-jar","app.jar"]
+EXPOSE 8089
+
+ENTRYPOINT ["java", "-jar", "app.jar"]

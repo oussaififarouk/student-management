@@ -4,6 +4,7 @@ pipeline {
     environment {
         JAVA_HOME = "/usr/lib/jvm/java-21-openjdk-amd64"
         SONAR_SCANNER = tool 'SonarScanner'
+        SONAR_HOST_URL = 'https://10.0.2.15:9000'
         PATH = "${JAVA_HOME}/bin:${SONAR_SCANNER}/bin:${env.PATH}"
     }
 
@@ -37,7 +38,7 @@ pipeline {
 
             ./mvnw sonar:sonar \
             -Dsonar.projectKey=student-management \
-            -Dsonar.host.url=http://10.0.2.15:9000 \
+            -Dsonar.host.url=$SONAR_HOST_URL \
             -Dsonar.token=$SONAR_TOKEN
             '''
         }
@@ -57,7 +58,11 @@ pipeline {
             steps {
                 sh '''
                 docker rm -f student-app || true
-                docker run -d -p 8081:8080 --name student-app student-management
+                docker run -d -p 8081:8089 \
+                  -e SPRING_DATASOURCE_URL \
+                  -e SPRING_DATASOURCE_USERNAME \
+                  -e SPRING_DATASOURCE_PASSWORD \
+                  --name student-app student-management
                 '''
             }
         }
