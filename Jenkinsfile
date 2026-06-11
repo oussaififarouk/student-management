@@ -73,11 +73,31 @@ pipeline {
                 sh '''
                 docker rm -f student-app || true
 
+                ENV_FILE="${APP_CONFIG_FILE:-}"
+                TEMP_ENV=false
+
+                if [ -z "$ENV_FILE" ] || [ ! -f "$ENV_FILE" ]; then
+                  ENV_FILE="$(mktemp)"
+                  TEMP_ENV=true
+
+                  {
+                    echo "SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:mysql://172.17.0.1:3306/studentdb?createDatabaseIfNotExist=true&serverTimezone=UTC}"
+                    echo "SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-root}"
+                    echo "SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-}"
+                    echo "SPRING_SECURITY_USER_NAME=${SPRING_SECURITY_USER_NAME:-admin}"
+                    echo "SPRING_SECURITY_USER_PASSWORD=${SPRING_SECURITY_USER_PASSWORD:-admin}"
+                  } > "$ENV_FILE"
+                fi
+
                 docker run -d \
                   --name student-app \
                   -p 8081:8089 \
-                  --env-file "$APP_CONFIG_FILE" \
+                  --env-file "$ENV_FILE" \
                   student-management:latest
+
+                if [ "$TEMP_ENV" = true ]; then
+                  rm -f "$ENV_FILE"
+                fi
                 '''
             }
         }
