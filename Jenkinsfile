@@ -37,9 +37,13 @@ pipeline {
 
                 echo "=== Java Version ==="
                 java -version
+<<<<<<< HEAD
 
                 echo "=== Maven Build ==="
                 ./mvnw clean package -DskipTests
+=======
+                ./mvnw clean verify
+>>>>>>> 4b3617a (Mise à jour Jenkins, SonarQube, sécurité et tests)
                 '''
             }
         }

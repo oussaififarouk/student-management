@@ -1,5 +1,6 @@
 package tn.esprit.studentmanagement.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.studentmanagement.entities.Enrollment;
@@ -19,10 +20,10 @@ public class EnrollmentController {
     public Enrollment getEnrollment(@PathVariable Long id) { return enrollmentService.getEnrollmentById(id); }
 
     @PostMapping("/createEnrollment")
-    public Enrollment createEnrollment(@RequestBody Enrollment enrollment) { return enrollmentService.saveEnrollment(enrollment); }
+    public Enrollment createEnrollment(@Valid @RequestBody Enrollment enrollment) { return enrollmentService.saveEnrollment(enrollment); }
 
     @PutMapping("/updateEnrollment")
-    public Enrollment updateEnrollment(@RequestBody Enrollment enrollment) {
+    public Enrollment updateEnrollment(@Valid @RequestBody Enrollment enrollment) {
         return enrollmentService.saveEnrollment(enrollment);
     }
 

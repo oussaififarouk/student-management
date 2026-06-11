@@ -1,5 +1,6 @@
 package tn.esprit.studentmanagement.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.studentmanagement.entities.Student;
@@ -20,10 +21,10 @@ public class StudentController {
     public Student getStudent(@PathVariable Long id) { return studentService.getStudentById(id); }
 
     @PostMapping("/createStudent")
-    public Student createStudent(@RequestBody Student student) { return studentService.saveStudent(student); }
+    public Student createStudent(@Valid @RequestBody Student student) { return studentService.saveStudent(student); }
 
     @PutMapping("/updateStudent")
-    public Student updateStudent(@RequestBody Student student) {
+    public Student updateStudent(@Valid @RequestBody Student student) {
         return studentService.saveStudent(student);
     }
 

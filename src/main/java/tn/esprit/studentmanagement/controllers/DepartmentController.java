@@ -1,5 +1,6 @@
 package tn.esprit.studentmanagement.controllers;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.studentmanagement.entities.Department;
@@ -20,10 +21,10 @@ public class DepartmentController {
     public Department getDepartment(@PathVariable Long id) { return departmentService.getDepartmentById(id); }
 
     @PostMapping("/createDepartment")
-    public Department createDepartment(@RequestBody Department department) { return departmentService.saveDepartment(department); }
+    public Department createDepartment(@Valid @RequestBody Department department) { return departmentService.saveDepartment(department); }
 
     @PutMapping("/updateDepartment")
-    public Department updateDepartment(@RequestBody Department department) {
+    public Department updateDepartment(@Valid @RequestBody Department department) {
         return departmentService.saveDepartment(department);
     }
 
