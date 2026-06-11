@@ -2,6 +2,7 @@ package tn.esprit.studentmanagement.controllers;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.studentmanagement.entities.Student;
 import tn.esprit.studentmanagement.services.IStudentService;
@@ -11,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/students")
 @AllArgsConstructor
+@PreAuthorize("isAuthenticated()")
 public class StudentController {
     private IStudentService studentService;
 

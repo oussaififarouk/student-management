@@ -50,6 +50,14 @@ class StudentServiceTest {
     }
 
     @Test
+    void saveStudentDelegatesToRepository() {
+        Student student = new Student();
+        when(studentRepository.save(student)).thenReturn(student);
+
+        assertEquals(student, studentService.saveStudent(student));
+    }
+
+    @Test
     void deleteStudentThrowsWhenMissing() {
         when(studentRepository.existsById(1L)).thenReturn(false);
 
