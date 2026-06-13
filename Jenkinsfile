@@ -48,7 +48,7 @@ pipeline {
             steps {
                 withCredentials([
                     string(
-                        credentialsId: 'sonar-token-student-management',
+                        credentialsId: 'sonarqube-token',
                         variable: 'SONAR_TOKEN'
                     )
                 ]) {
