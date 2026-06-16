@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:21-jre-jammy
 
 RUN groupadd --system appgroup && useradd --system --gid appgroup appuser
 
