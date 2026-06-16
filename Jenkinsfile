@@ -73,18 +73,17 @@ pipeline {
         }
 
         stage('Docker Build (Minikube)') {
-            steps {
-                sh '''
-                echo "=== Vérification du JAR ==="
-                ls -lh target/
-
-                echo "=== Construction de l'image Docker dans Minikube ==="
-                # 🔄 MODIFIÉ : On bascule sur le contexte Docker de Minikube
-                eval $(minikube docker-env)
-                docker build -t student-management:latest .
-                '''
-            }
-        }
+    steps {
+        sh '''
+            echo "=== Vérification du JAR ==="
+            ls -lh target/
+            
+            echo "=== Construction de l'image Docker ==="
+            # Option robuste : On utilise directement le binaire minikube pour build
+            minikube image build -t student-management:latest .
+        '''
+    }
+}
 
         stage('Kubernetes Deploy') {
             steps {
