@@ -15,22 +15,28 @@ spec:
     spec:
       containers:
         - name: studentmang-app
-          image: student-management:latest   # 🔄 MODIFIÉ : Votre image au lieu de celle de l'enseignant
-          imagePullPolicy: Never            # 🔄 AJOUTÉ : Force l'utilisation de l'image locale de Minikube
+          image: student-management:latest
+          imagePullPolicy: Never
+
           ports:
             - containerPort: 8080
+
           env:
             - name: SPRING_DATASOURCE_URL
               value: jdbc:mysql://mysql-service:3306/testdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+
             - name: SPRING_DATASOURCE_USERNAME
               value: root
+
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mysql-secret
                   key: mysql-root-password
+
             - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
               value: com.mysql.cj.jdbc.Driver
+
 ---
 apiVersion: v1
 kind: Service
@@ -44,5 +50,5 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080
-      nodePort: 32639   # Port d'accès pour l'application Spring
+      nodePort: 32639
   type: NodePort
